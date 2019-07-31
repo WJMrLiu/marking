@@ -25,6 +25,13 @@ export default new Router({
         import(/* webpackChunkName: "form" */ "./views/Form/BasicForm")
     },
     {
+      path: "/upload",
+      name: "basicform",
+      meta: { title: "基础表单" },
+      component: () =>
+        import(/* webpackChunkName: "form" */ "./views/Upload/Full.vue")
+    },
+    {
       path: "*",
       redirect: "/404"
     }
