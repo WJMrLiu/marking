@@ -64,7 +64,6 @@ export default {
   mounted() {
     this.showLogin = true;
   },
-  computed: {},
   methods: {
     getCode() {
       const TIME_COUNT = 60;
