@@ -16,11 +16,7 @@
             <el-input v-model="basicForm.activity" disabled></el-input>
           </el-form-item>
           <el-form-item label="附件类型" prop="attach_type">
-            <el-select
-              v-model="basicForm.attach_type"
-              style="width:100%;"
-              placeholder="请选择"
-            >
+            <el-select v-model="basicForm.attach_type" style="width:100%;" placeholder="请选择">
               <el-option
                 v-for="item in attach_type"
                 :key="item.value"
@@ -73,28 +69,26 @@ export default {
         description: "",
         image_path: "",
         activity: "",
-        attach_type: ""
+        attach_type: "",
       },
       rules: {
-        attach_type: [
-          { required: true, message: "请选择附件类型", trigger: "change" }
-        ]
+        attach_type: [{ required: true, message: "请选择附件类型", trigger: "change" }],
       },
       value: "",
       formDate: "",
       attach_type: [
         {
           value: "1",
-          label: "生活照骗"
+          label: "生活照骗",
         },
         {
           value: "2",
-          label: "艺术照骗"
-        }
+          label: "艺术照骗",
+        },
       ],
       fileList: [],
       dialogImageUrl: "",
-      dialogVisible: false
+      dialogVisible: false,
     };
   },
   watch: {
@@ -104,8 +98,8 @@ export default {
         console.log(curVal, oldVal);
         this.imageType = curVal.attach_type;
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   created() {},
   methods: {
@@ -120,7 +114,7 @@ export default {
         url: "/smmu/mobile/getFreshmanInfo",
         contentType: "multipart/form-data",
         method: "post",
-        data: this.formDate
+        data: this.formDate,
       })
         .then(res => {
           console.log(res);
@@ -162,8 +156,7 @@ export default {
       }
     },
     beforeImgUpload(file) {
-      const isRightType =
-        file.type === "image/jpeg" || file.type === "image/png";
+      const isRightType = file.type === "image/jpeg" || file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isRightType) {
         this.$message.error("图片格式不正确!");
@@ -179,8 +172,8 @@ export default {
       this.specsForm.packing_fee = 0;
       this.specsForm.price = 20;
       this.dialogFormVisible = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -190,8 +183,7 @@ export default {
   min-width: 400px;
   margin-bottom: 30px;
   &:hover {
-    box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6),
-      0 2px 4px 0 rgba(232, 237, 250, 0.5);
+    box-shadow: 0 0 8px 0 rgba(232, 237, 250, 0.6), 0 2px 4px 0 rgba(232, 237, 250, 0.5);
     border-radius: 6px;
     transition: all 400ms;
   }
