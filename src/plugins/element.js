@@ -20,6 +20,8 @@ import {
   Aside,
   menu,
   Submenu,
+  Message,
+  Notification,
   MenuItem
 } from "element-ui";
 Vue.use(Aside);
@@ -45,3 +47,4 @@ Vue.use(Divider);
 Vue.use(Loading.directive);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$notify = Notification;
+Vue.prototype.$message = Message;

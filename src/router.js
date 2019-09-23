@@ -25,8 +25,17 @@ export default new Router({
         import(/* webpackChunkName: "form" */ "./views/Form/BasicForm")
     },
     {
+      path: "/upload/upload-test",
+      name: "upload",
+      meta: { title: "上传图片" },
+      component: () =>
+        import(/* webpackChunkName: "form" */ "./views/Upload/UploadList.vue")
+    },
+    {
       path: "*",
-      redirect: "/404"
+      name: "404",
+      component: () =>
+        import(/* webpackChunkName: "exception" */ "@/views/Exception/404")
     }
   ]
 });

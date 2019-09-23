@@ -3,26 +3,26 @@
     <el-row style="margin-top: 20px;">
       <el-col :span="12" :offset="6">
         <el-form
-          :model="foodForm"
+          :model="basicForm"
           :rules="rules"
-          ref="foodForm"
+          ref="basicForm"
           label-width="110px"
           class="form base_form"
         >
           <el-form-item label="身份证号" prop="name">
-            <el-input v-model="foodForm.name" disabled></el-input>
+            <el-input v-model="basicForm.name" disabled></el-input>
           </el-form-item>
           <el-form-item label="姓名" prop="activity">
-            <el-input v-model="foodForm.activity" disabled></el-input>
+            <el-input v-model="basicForm.activity" disabled></el-input>
           </el-form-item>
-          <el-form-item label="附件类型" prop="attributes">
+          <el-form-item label="附件类型" prop="attach_type">
             <el-select
-              v-model="foodForm.attributes"
+              v-model="basicForm.attach_type"
               style="width:100%;"
               placeholder="请选择"
             >
               <el-option
-                v-for="item in attributes"
+                v-for="item in attach_type"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -32,12 +32,16 @@
           <el-form-item label="上传图片" style="padding-top: 5rem;">
             <el-upload
               :file-list="fileList"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action="#"
               list-type="picture-card"
               :auto-upload="false"
+              accept="image/*"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove"
               :on-success="handleSuccess"
+              :on-progress="fileProgress"
+              :http-request="uploadFile"
+              ref="upload"
             >
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -46,11 +50,11 @@
               :append-to-body="true"
               :close-on-click-modal="false"
             >
-              <img width="100%" :src="dialogImageUrl" alt="MDN" />
+              <img width="100%" :src="dialogImageUrl" alt />
             </el-dialog>
           </el-form-item>
           <el-form-item>
-            <el-button type="info" @click="addFood('foodForm')">提交</el-button>
+            <el-button type="info" @click="subPicForm">提交</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -59,22 +63,26 @@
 </template>
 
 <script>
+import request from "../../utils/request";
 export default {
   data() {
     return {
-      foodForm: {
+      imageType: "",
+      basicForm: {
         name: "",
         description: "",
         image_path: "",
         activity: "",
-        attributes: ""
+        attach_type: ""
       },
       rules: {
-        attributes: [
+        attach_type: [
           { required: true, message: "请选择附件类型", trigger: "change" }
         ]
       },
-      attributes: [
+      value: "",
+      formDate: "",
+      attach_type: [
         {
           value: "1",
           label: "生活照骗"
@@ -89,12 +97,45 @@ export default {
       dialogVisible: false
     };
   },
+  watch: {
+    basicForm: {
+      //注意：当观察的数据为对象或数组时，curVal和oldVal是相等的，因为这两个形参指向的是同一个数据对象
+      handler(curVal, oldVal) {
+        console.log(curVal, oldVal);
+        this.imageType = curVal.attach_type;
+      },
+      deep: true
+    }
+  },
   created() {},
   methods: {
+    uploadFile(file) {
+      this.formDate.append("file", file.file);
+    },
+    subPicForm() {
+      this.formDate = new FormData();
+      this.$refs.upload.submit();
+      // this.formDate.append("WS_CODE", "12133");
+      request({
+        url: "/smmu/mobile/getFreshmanInfo",
+        contentType: "multipart/form-data",
+        method: "post",
+        data: this.formDate
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(res => {
+          console.log(res);
+        });
+    },
+    fileProgress(event, file) {
+      file.imageType = this.imageType;
+    },
     addFood(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log("foodForm", formName);
+          console.log("basicForm", formName);
         } else {
           console.log("error submit!!");
           return false;
@@ -112,9 +153,10 @@ export default {
     addCategoryFun() {
       this.showAddCategory = !this.showAddCategory;
     },
-    uploadImg(res) {
+    handleSuccess(res) {
+      console.log("res", res);
       if (res.status == 1) {
-        this.foodForm.image_path = res.image_path;
+        this.basicForm.image_path = res.image_path;
       } else {
         this.$message.error("上传图片失败！");
       }
@@ -132,7 +174,7 @@ export default {
       return isRightType && isLt2M;
     },
     addspecs() {
-      this.foodForm.specs.push({ ...this.specsForm });
+      this.basicForm.specs.push({ ...this.specsForm });
       this.specsForm.specs = "";
       this.specsForm.packing_fee = 0;
       this.specsForm.price = 20;
