@@ -59,35 +59,35 @@
 </template>
 
 <script>
-import request from "../../utils/request";
+import request from '../../utils/request';
 export default {
   data() {
     return {
-      imageType: "",
+      imageType: '',
       basicForm: {
-        name: "",
-        description: "",
-        image_path: "",
-        activity: "",
-        attach_type: "",
+        name: '',
+        description: '',
+        image_path: '',
+        activity: '',
+        attach_type: '',
       },
       rules: {
-        attach_type: [{ required: true, message: "请选择附件类型", trigger: "change" }],
+        attach_type: [{ required: true, message: '请选择附件类型', trigger: 'change' }],
       },
-      value: "",
-      formDate: "",
+      value: '',
+      formDate: '',
       attach_type: [
         {
-          value: "1",
-          label: "生活照骗",
+          value: '1',
+          label: '生活照骗',
         },
         {
-          value: "2",
-          label: "艺术照骗",
+          value: '2',
+          label: '艺术照骗',
         },
       ],
       fileList: [],
-      dialogImageUrl: "",
+      dialogImageUrl: '',
       dialogVisible: false,
     };
   },
@@ -104,16 +104,16 @@ export default {
   created() {},
   methods: {
     uploadFile(file) {
-      this.formDate.append("file", file.file);
+      this.formDate.append('file', file.file);
     },
     subPicForm() {
       this.formDate = new FormData();
       this.$refs.upload.submit();
       // this.formDate.append("WS_CODE", "12133");
       request({
-        url: "/smmu/mobile/getFreshmanInfo",
-        contentType: "multipart/form-data",
-        method: "post",
+        url: '/smmu/mobile/getFreshmanInfo',
+        contentType: 'multipart/form-data',
+        method: 'post',
         data: this.formDate,
       })
         .then(res => {
@@ -129,9 +129,9 @@ export default {
     addFood(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log("basicForm", formName);
+          console.log('basicForm', formName);
         } else {
-          console.log("error submit!!");
+          console.log('error submit!!');
           return false;
         }
       });
@@ -140,7 +140,7 @@ export default {
       console.log(file, fileList);
     },
     handlePictureCardPreview(file) {
-      console.log("file", file);
+      console.log('file', file);
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
@@ -148,27 +148,27 @@ export default {
       this.showAddCategory = !this.showAddCategory;
     },
     handleSuccess(res) {
-      console.log("res", res);
+      console.log('res', res);
       if (res.status == 1) {
         this.basicForm.image_path = res.image_path;
       } else {
-        this.$message.error("上传图片失败！");
+        this.$message.error('上传图片失败！');
       }
     },
     beforeImgUpload(file) {
-      const isRightType = file.type === "image/jpeg" || file.type === "image/png";
+      const isRightType = file.type === 'image/jpeg' || file.type === 'image/png';
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isRightType) {
-        this.$message.error("图片格式不正确!");
+        this.$message.error('图片格式不正确!');
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isRightType && isLt2M;
     },
     addspecs() {
       this.basicForm.specs.push({ ...this.specsForm });
-      this.specsForm.specs = "";
+      this.specsForm.specs = '';
       this.specsForm.packing_fee = 0;
       this.specsForm.price = 20;
       this.dialogFormVisible = false;
@@ -178,7 +178,7 @@ export default {
 </script>
 
 <style lang="less">
-@import "../Style/mixin";
+@import '../Style/mixin';
 .form {
   min-width: 400px;
   margin-bottom: 30px;

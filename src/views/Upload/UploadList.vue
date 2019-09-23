@@ -4,9 +4,7 @@
       <img class="img-li-b--url" :src="item.url" />
       <div class="img-li-b--bottom">
         <div class="img-li-b--name">{{ item.name }}</div>
-        <el-button type="text" @click="handleFileName(item, key)"
-          >修改名字</el-button
-        >
+        <el-button type="text" @click="handleFileName(item, key)">修改名字</el-button>
       </div>
 
       <!-- 删除icon -->
@@ -22,11 +20,7 @@
 
     <!-- 上传进度 -->
     <div v-if="!pass && progress !== 0" class="img-li-box img-li-b--progress">
-      <el-progress
-        type="circle"
-        :percentage="progress"
-        :status="proStatus"
-      ></el-progress>
+      <el-progress type="circle" :percentage="progress" :status="proStatus"></el-progress>
     </div>
 
     <!-- 上传按钮 -->
@@ -56,58 +50,51 @@
       top="8%"
       width="60%"
     >
-      <img
-        @click="isEnlargeImage = false"
-        style="width:100%;"
-        :src="enlargeImage"
-      />
+      <img @click="isEnlargeImage = false" style="width:100%;" :src="enlargeImage" />
     </el-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  name: "upload-list",
+  name: 'upload-list',
   data() {
     return {
       progress: 0, //上传进度
       pass: null, //是否上传成功
       isEnlargeImage: false, //放大图片
-      enlargeImage: "", //放大图片地址
+      enlargeImage: '', //放大图片地址
       imgList: [
         {
-          url:
-            "http://img.hb.aicdn.com/723f8754f412debce188626d09cc0a1b2be6b7a6751a3-ICEp1E_fw658",
-          name: "lemon"
+          url: 'http://img.hb.aicdn.com/723f8754f412debce188626d09cc0a1b2be6b7a6751a3-ICEp1E_fw658',
+          name: 'lemon',
         },
         {
-          url:
-            "http://img.hb.aicdn.com/38ab9e558bcba041be979f03bfd31bd67bf1e6f35815a-8PD8Eo_fw658",
-          name: "lemon2"
+          url: 'http://img.hb.aicdn.com/38ab9e558bcba041be979f03bfd31bd67bf1e6f35815a-8PD8Eo_fw658',
+          name: 'lemon2',
         },
         {
-          url:
-            "http://img.hb.aicdn.com/0cd0dcc93f5b918e191dd84791101435136c7f9811e31-LRzYAQ_fw658",
-          name: "lemon3"
-        }
+          url: 'http://img.hb.aicdn.com/0cd0dcc93f5b918e191dd84791101435136c7f9811e31-LRzYAQ_fw658',
+          name: 'lemon3',
+        },
       ],
       params: {
-        action: "http://jsonplaceholder.typicode.com/posts/",
-        data: {}
-      }
+        action: 'http://jsonplaceholder.typicode.com/posts/',
+        data: {},
+      },
     };
   },
   computed: {
     proStatus() {
       //上传状态
       if (this.pass) {
-        return "success";
+        return 'success';
       } else if (this.pass === false) {
-        return "exception";
+        return 'exception';
       } else {
-        return "text";
+        return 'text';
       }
-    }
+    },
   },
   methods: {
     uploadOnProgress(e, file) {
@@ -116,30 +103,30 @@ export default {
       this.progress = Math.floor(e.percent);
     },
     uploadOnChange(file) {
-      console.log("——————————change——————————");
+      console.log('——————————change——————————');
       // console.log(file)
-      if (file.status == "ready") {
-        console.log("ready");
+      if (file.status == 'ready') {
+        console.log('ready');
         this.pass = null;
         this.progress = 0;
-      } else if (file.status == "fail") {
-        this.$message.error("图片上传出错，请刷新重试！");
+      } else if (file.status == 'fail') {
+        this.$message.error('图片上传出错，请刷新重试！');
       }
     },
     uploadOnSuccess(e, file) {
       //上传附件
-      console.log("——————————success——————————");
+      console.log('——————————success——————————');
       this.pass = true;
-      this.$message.success("上传成功");
+      this.$message.success('上传成功');
       this.imgList.push({
         url: file.url,
-        name: "新增图片"
+        name: '新增图片',
       });
     },
     uploadOnError(e, file) {
-      console.log("——————————error——————————");
+      console.log('——————————error——————————');
       console.log(e);
-      console.log(file, "file");
+      console.log(file, 'file');
       this.pass = false;
     },
     handleFileEnlarge(_url) {
@@ -154,9 +141,9 @@ export default {
       //修改名字
       console.log(file, i);
       // let that = this;
-      this.$prompt("请输入新文件名：", "提示：", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
+      this.$prompt('请输入新文件名：', '提示：', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
       })
         .then(({ value }) => {
           console.log(value);
@@ -164,8 +151,8 @@ export default {
             return false;
           }
           //可添加ajax
-          this.$set(this.imgList[i], "name", value);
-          this.$message.success("操作成功");
+          this.$set(this.imgList[i], 'name', value);
+          this.$message.success('操作成功');
         })
         .catch(() => {});
     },
@@ -176,24 +163,24 @@ export default {
         return false;
       }
       let that = this;
-      this.$confirm("是否删除此文件？", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('是否删除此文件？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           //可添加ajax
           this.$message({
-            type: "success",
-            message: "删除成功",
+            type: 'success',
+            message: '删除成功',
             onClose: () => {
               that.imgList.splice(i, 1);
-            }
+            },
           });
         })
         .catch(meg => console.log(meg));
-    }
-  }
+    },
+  },
 };
 </script>
 

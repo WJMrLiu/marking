@@ -7,38 +7,22 @@
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm">
           <el-form-item prop="username">
-            <el-input
-              v-model="loginForm.username"
-              placeholder="手机号码"
-            ></el-input>
+            <el-input v-model="loginForm.username" placeholder="手机号码"></el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-row :gutter="30">
               <el-col :span="14">
-                <el-input
-                  type="password"
-                  placeholder="验证码"
-                  v-model="loginForm.password"
-                ></el-input>
+                <el-input type="password" placeholder="验证码" v-model="loginForm.password"></el-input>
               </el-col>
               <el-col :span="10">
-                <el-button v-show="show" @click="getCode" type="info"
-                  >获取验证码</el-button
-                >
-                <el-button v-show="!show" class="count" type="info" disabled
-                  >等待 {{ count }} 秒</el-button
-                >
+                <el-button v-show="show" @click="getCode" type="info">获取验证码</el-button>
+                <el-button v-show="!show" class="count" type="info" disabled>等待 {{ count }} 秒</el-button>
               </el-col>
             </el-row>
           </el-form-item>
 
           <el-form-item>
-            <el-button
-              type="info"
-              @click="submitForm('loginForm')"
-              class="submit_btn"
-              >登陆</el-button
-            >
+            <el-button type="info" @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
           </el-form-item>
         </el-form>
       </section>
@@ -51,30 +35,30 @@ export default {
   data() {
     let checkPhone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("手机号不能为空"));
+        return callback(new Error('手机号不能为空'));
       } else {
         const reg = /^1[3|4|5|6|7|8|9][0-9]\d{8}$/;
         console.log(reg.test(value));
         if (reg.test(value)) {
           callback();
         } else {
-          return callback(new Error("请输入正确的手机号"));
+          return callback(new Error('请输入正确的手机号'));
         }
       }
     };
     return {
       show: true,
-      count: "",
+      count: '',
       timer: null,
       loginForm: {
-        username: "",
-        password: ""
+        username: '',
+        password: '',
       },
       rules: {
-        username: [{ validator: checkPhone, trigger: "blur" }],
-        password: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+        username: [{ validator: checkPhone, trigger: 'blur' }],
+        password: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
       },
-      showLogin: false
+      showLogin: false,
     };
   },
   mounted() {
@@ -102,13 +86,13 @@ export default {
           }
         }, 1000);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-@import "../Style/mixin";
+@import '../Style/mixin';
 .login_page {
   height: 100%;
   background-color: #324057;
