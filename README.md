@@ -12,7 +12,7 @@ yarn install
 yarn run serve
 ```
 
-### 生产环境测试运行的命令
+### 生产环境测试版本运行的命令
 
 ```
 yarn run buildtest
@@ -35,9 +35,8 @@ import request from "@utils/request.js"
 ```
 
 ![avatar](/src/assets/img/get.jpg)
-
-```
 ### 如何使用axios发送请求， 如果是post方式
+```
 首先下在 .vue 页面引入 request 例如
 ```
 
